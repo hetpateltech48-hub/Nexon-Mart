@@ -14,7 +14,7 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4 shadow-sm">
       <Link className="navbar-brand fw-bold tracking-wider text-warning" to="/">
-        NEXUS<span className="text-white">MART</span>
+        NEXON<span className="text-white">MART</span>
       </Link>
       
       <div className="d-flex ms-auto align-items-center">

@@ -17,7 +17,7 @@ const importData = async () => {
     // Create Admin User
     const adminUser = await User.create({
       name: 'Admin User',
-      email: 'admin@nexusmart.com',
+      email: 'admin@nexonmart.com',
       password: 'password123',
       isAdmin: true,
     });

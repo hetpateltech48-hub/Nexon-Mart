@@ -14,12 +14,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Expose the uploads folder statically to the web browser
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
-// Mount API Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/products', productRoutes); // <-- NEW MOUNT
+app.use('/api/products', productRoutes);
 app.use('/api/payment', paymentRoutes);
 
 app.get('/', (req, res) => res.status(200).json({ message: "API Live." }));

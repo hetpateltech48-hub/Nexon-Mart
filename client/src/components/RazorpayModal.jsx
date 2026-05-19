@@ -6,7 +6,6 @@ const RazorpayModal = ({ order, user, onClose, onSuccess }) => {
   const [paymentMethod, setPaymentMethod] = useState('CARD'); // CARD, UPI, NETBANKING
   const [processing, setProcessing] = useState(false);
 
-  // Form values
   const [cardNumber, setCardNumber] = useState('4111 1111 1111 1111');
   const [cardExpiry, setCardExpiry] = useState('12/28');
   const [cardCvv, setCardCvv] = useState('123');
@@ -18,7 +17,6 @@ const RazorpayModal = ({ order, user, onClose, onSuccess }) => {
 
     setTimeout(() => {
       setProcessing(false);
-      // Simulate success response structure from Razorpay
       const paymentResponse = {
         razorpay_order_id: order.id,
         razorpay_payment_id: `pay_mock_${Math.random().toString(36).substring(2, 11)}`,
@@ -47,7 +45,6 @@ const RazorpayModal = ({ order, user, onClose, onSuccess }) => {
           fontFamily: 'system-ui, -apple-system, sans-serif'
         }}
       >
-        {/* Top Header section matching Razorpay Theme */}
         <div className="bg-primary text-white p-4 text-center position-relative" style={{ background: 'linear-gradient(135deg, #0d6efd, #0b5ed7)' }}>
           <button 
             type="button" 
@@ -63,12 +60,11 @@ const RazorpayModal = ({ order, user, onClose, onSuccess }) => {
             <strong className="text-primary fs-4">NM</strong>
           </div>
           
-          <h5 className="fw-bold m-0">NexusMart</h5>
+          <h5 className="fw-bold m-0">NexonMart</h5>
           <p className="small opacity-75 m-0 mt-1">Payment gateway integration</p>
           <div className="mt-3 fs-4 fw-bold">₹{amountInRupees}</div>
         </div>
 
-        {/* Modal Body */}
         <div className="p-4 bg-light" style={{ minHeight: '300px' }}>
           {processing ? (
             <div className="d-flex flex-column align-items-center justify-content-center py-5 text-center">
@@ -78,7 +74,6 @@ const RazorpayModal = ({ order, user, onClose, onSuccess }) => {
             </div>
           ) : (
             <form onSubmit={handlePaymentSubmit}>
-              {/* Contact info */}
               <div className="row g-2 mb-3">
                 <div className="col-6">
                   <label className="form-label small text-muted mb-1">Phone</label>
@@ -102,7 +97,6 @@ const RazorpayModal = ({ order, user, onClose, onSuccess }) => {
                 </div>
               </div>
 
-              {/* Payment Methods tabs */}
               <label className="form-label small text-muted mb-2">Select Payment Method</label>
               <div className="btn-group btn-group-sm w-100 mb-3" role="group">
                 <input 
@@ -136,7 +130,6 @@ const RazorpayModal = ({ order, user, onClose, onSuccess }) => {
                 <label className="btn btn-outline-primary" htmlFor="methodNetbanking">🏦 Netbanking</label>
               </div>
 
-              {/* Dynamic Sub-form based on selection */}
               {paymentMethod === 'CARD' && (
                 <div className="card p-3 border-0 shadow-sm mb-4 bg-white">
                   <div className="mb-2">
@@ -205,7 +198,6 @@ const RazorpayModal = ({ order, user, onClose, onSuccess }) => {
                 </div>
               )}
 
-              {/* Submit Payment Button */}
               <button 
                 type="submit" 
                 className="btn btn-primary w-100 fw-bold py-2 shadow-sm"
@@ -217,7 +209,6 @@ const RazorpayModal = ({ order, user, onClose, onSuccess }) => {
           )}
         </div>
 
-        {/* Footer */}
         <div className="bg-white border-top text-center py-2">
           <span className="text-muted small">🔒 Razorpay Trusted Security (Simulation mode)</span>
         </div>

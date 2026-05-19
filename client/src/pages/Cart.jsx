@@ -6,7 +6,7 @@ import RazorpayModal from '../components/RazorpayModal';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
-  const [checkoutStep, setCheckoutStep] = useState('CART'); // CART -> PROCESSING -> SUCCESS
+  const [checkoutStep, setCheckoutStep] = useState('CART');
   const [showRazorpayModal, setShowRazorpayModal] = useState(false);
   const [razorpayOrder, setRazorpayOrder] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
@@ -67,7 +67,7 @@ const Cart = () => {
         key: 'rzp_test_placeholder', // Dummy test key for modal load test
         amount: order.amount,
         currency: order.currency,
-        name: 'NexusMart',
+        name: 'NexonMart',
         description: 'Store Purchase',
         order_id: order.id,
         handler: async function (response) {

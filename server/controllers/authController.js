@@ -1,13 +1,10 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 
-// Helper to generate JWT token
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
 };
 
-// @desc    Register a new user
-// @route   POST /api/auth/register
 const registerUser = async (req, res) => {
   const { name, email, password, isAdmin } = req.body;
 
@@ -35,8 +32,7 @@ const registerUser = async (req, res) => {
   }
 };
 
-// @desc    Authenticate user & get token
-// @route   POST /api/auth/login
+
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 

@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import RazorpayModal from '../components/RazorpayModal';
+import { API_URL, getImageUrl } from '../config';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
-  const [checkoutStep, setCheckoutStep] = useState('CART');
+  const [checkoutStep, setCheckoutStep] = useState('CART'); // CART -> PROCESSING -> SUCCESS
   const [showRazorpayModal, setShowRazorpayModal] = useState(false);
   const [razorpayOrder, setRazorpayOrder] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
@@ -48,13 +49,11 @@ const Cart = () => {
     setErrorMessage('');
     try {
       const { data: order } = await axios.post(
-        'http://localhost:5000/api/payment/order',
+        `${API_URL}/api/payment/order`,
         { amount: parseFloat(subtotal) },
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
 
-      // Check if we should use the simulated Razorpay Modal
-      // (Used if order is mock or if Razorpay script didn't load properly or fallback key is set)
       if (order.isSimulation || !window.Razorpay) {
         setRazorpayOrder(order);
         setShowRazorpayModal(true);
@@ -64,17 +63,17 @@ const Cart = () => {
 
       // Official Razorpay Checkout Flow
       const options = {
-        key: 'rzp_test_placeholder', // Dummy test key for modal load test
+        key: order.key_id || import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_placeholder',
         amount: order.amount,
         currency: order.currency,
-        name: 'NexonMart',
+        name: 'NexusMart',
         description: 'Store Purchase',
         order_id: order.id,
         handler: async function (response) {
           setCheckoutStep('PROCESSING');
           try {
             await axios.post(
-              'http://localhost:5000/api/payment/verify',
+              `${API_URL}/api/payment/verify`,
               response,
               { headers: { Authorization: `Bearer ${user.token}` } }
             );
@@ -113,7 +112,7 @@ const Cart = () => {
     setCheckoutStep('PROCESSING');
     try {
       await axios.post(
-        'http://localhost:5000/api/payment/verify',
+        `${API_URL}/api/payment/verify`,
         response,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
@@ -165,7 +164,7 @@ const Cart = () => {
                 {cartItems.map(item => (
                   <li key={item._id} className="list-group-item py-3 d-flex align-items-center justify-content-between">
                     <div className="d-flex align-items-center">
-                      <img src={item.image.startsWith('http') ? item.image : `http://localhost:5000${item.image}`} alt={item.name} style={{ width: '50px', height: '50px', objectFit: 'contain' }} className="me-3" />
+                      <img src={getImageUrl(item.image)} alt={item.name} style={{ width: '50px', height: '50px', objectFit: 'contain' }} className="me-3" />
                       <div>
                         <h6 className="mb-0 fw-bold">{item.name}</h6>
                         <small className="text-muted">₹{item.price} x {item.qty}</small>

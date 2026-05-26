@@ -1,15 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { API_URL, getImageUrl } from '../config';
+import { AuthContext } from '../context/AuthContext';
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [addedId, setAddedId] = useState(null);
 
+  const { user } = useContext(AuthContext);
+
+  const deleteHandler = async (id) => {
+    if (window.confirm('Are you sure you want to delete this product?')) {
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        };
+        await axios.delete(`${API_URL}/api/products/${id}`, config);
+        setProducts(products.filter((p) => p._id !== id));
+      } catch (error) {
+        alert(error.response?.data?.message || 'Failed to delete product.');
+      }
+    }
+  };
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const { data } = await axios.get('http://localhost:5000/api/products');
+        const { data } = await axios.get(`${API_URL}/api/products`);
         setProducts(data);
       } catch (error) {
         console.error("Failed to fetch products", error);
@@ -54,7 +75,7 @@ const Home = () => {
             <div key={p._id} className="col-12 col-md-6 col-lg-4">
               <div className="card h-100 shadow-sm border-0 bg-white">
                 <img 
-                  src={p.image.startsWith('http') ? p.image : `http://localhost:5000${p.image}`} 
+                  src={getImageUrl(p.image)} 
                   className="card-img-top p-3" 
                   style={{ height: '220px', objectFit: 'contain' }} 
                   alt={p.name} 
@@ -72,6 +93,19 @@ const Home = () => {
                       {addedId === p._id ? '✓ Added to Cart' : '+ Add to Cart'}
                     </button>
                   </div>
+                  {user && user.isAdmin && (
+                    <div className="border-top pt-2 mt-3 d-flex justify-content-between align-items-center">
+                      <span className="text-muted small fw-medium">Admin Actions:</span>
+                      <div>
+                        <Link to={`/admin/edit-product/${p._id}`} className="btn btn-sm btn-outline-primary me-2">
+                          Edit ✏️
+                        </Link>
+                        <button onClick={() => deleteHandler(p._id)} className="btn btn-sm btn-outline-danger">
+                          Delete 🗑️
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

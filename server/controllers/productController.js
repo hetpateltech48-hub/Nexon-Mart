@@ -1,4 +1,5 @@
 const Product = require('../models/Product');
+const { handleImageUpload } = require('../utils/uploadService');
 
 // @desc    Fetch all products
 // @route   GET /api/products
@@ -30,7 +31,7 @@ const createProduct = async (req, res) => {
     const { name, price, description, brand, category, countInStock } = req.body;
     
     // Safely capture uploaded image path, fallback to placeholder if text-only test
-    const imagePath = req.file ? `/uploads/${req.file.filename}` : 'https://placehold.co/600x400/png';
+    const imagePath = req.file ? await handleImageUpload(req.file) : 'https://placehold.co/600x400/png';
 
     const product = new Product({
       user: req.user._id,
@@ -50,4 +51,50 @@ const createProduct = async (req, res) => {
   }
 };
 
-module.exports = { getProducts, getProductById, createProduct };
+// @desc    Update a product (Requires Admin Token)
+// @route   PUT /api/products/:id
+const updateProduct = async (req, res) => {
+  try {
+    const { name, price, description, brand, category, countInStock } = req.body;
+    const product = await Product.findById(req.params.id);
+
+    if (product) {
+      product.name = name || product.name;
+      product.price = price !== undefined ? price : product.price;
+      product.description = description || product.description;
+      product.brand = brand || product.brand;
+      product.category = category || product.category;
+      product.countInStock = countInStock !== undefined ? countInStock : product.countInStock;
+
+      if (req.file) {
+        product.image = await handleImageUpload(req.file);
+      }
+
+      const updatedProduct = await product.save();
+      res.json(updatedProduct);
+    } else {
+      res.status(404).json({ message: 'Product not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// @desc    Delete a product (Requires Admin Token)
+// @route   DELETE /api/products/:id
+const deleteProduct = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    if (product) {
+      await Product.findByIdAndDelete(req.params.id);
+      res.json({ message: 'Product removed successfully' });
+    } else {
+      res.status(404).json({ message: 'Product not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { getProducts, getProductById, createProduct, updateProduct, deleteProduct };

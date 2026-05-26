@@ -1,24 +1,17 @@
 const multer = require('multer');
 const path = require('path');
 
-const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, 'uploads/'); // Saves to server/uploads/
-  },
-  filename(req, file, cb) {
-    cb(null, `product-${Date.now()}${path.extname(file.originalname)}`);
-  }
-});
+const storage = multer.memoryStorage();
 
 function checkFileType(file, cb) {
-  const filetypes = /jpg|jpeg|png|webp/;
+  const filetypes = /jpg|jpeg|png|webp|avif/;
   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = filetypes.test(file.mimetype);
+  const mimetype = filetypes.test(file.mimetype) || file.mimetype === 'image/avif';
 
   if (extname && mimetype) {
     return cb(null, true);
   } else {
-    cb('Error: Images Only (jpg, jpeg, png, webp)!');
+    cb('Error: Images Only (jpg, jpeg, png, webp, avif)!');
   }
 }
 

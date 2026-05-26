@@ -37,7 +37,7 @@ const importData = async () => {
       {
         user: adminId,
         name: 'Wireless Noise-Canceling Headphones',
-        image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&auto=format&fit=crop',
+        image: '/photo-1505740420928-5e560c06d30e.avif',
         brand: 'AudioQuest',
         category: 'Electronics',
         description: 'High-fidelity audio with active noise cancellation, built-in microphone, and 30-hour battery life.',
@@ -49,7 +49,7 @@ const importData = async () => {
       {
         user: adminId,
         name: 'Mechanical Gaming Keyboard',
-        image: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600&auto=format&fit=crop',
+        image: '/photo-1587829741301-dc798b83add3.avif',
         brand: 'KeyTech',
         category: 'Accessories',
         description: 'Tactile mechanical switches with customizable per-key RGB backlighting and aluminum frame.',
@@ -61,7 +61,7 @@ const importData = async () => {
       {
         user: adminId,
         name: 'Smart Fitness Watch',
-        image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&auto=format&fit=crop',
+        image: '/photo-1523275335684-37898b6baf30.avif',
         brand: 'FitTrack',
         category: 'Wearables',
         description: 'Real-time heart rate tracking, sleep analysis, built-in GPS mapping, and water resistance up to 50m.',
@@ -73,7 +73,7 @@ const importData = async () => {
       {
         user: adminId,
         name: 'Portable Bluetooth Speaker',
-        image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600&auto=format&fit=crop',
+        image: '/photo-1608043152269-423dbba4e7e1.avif',
         brand: 'SoundWave',
         category: 'Electronics',
         description: 'Waterproof outdoor speaker with rich bass, dual drivers, and up to 12 hours of continuous playtime.',
@@ -85,7 +85,7 @@ const importData = async () => {
       {
         user: adminId,
         name: 'Ultra-Wide Curved Monitor',
-        image: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=600&auto=format&fit=crop',
+        image: '/photo-1527443224154-c4a3942d3acf.avif',
         brand: 'ViewSonic',
         category: 'Electronics',
         description: '34-inch curved gaming and productivity monitor with 144Hz refresh rate, 1ms response time, and HDR10 support.',
@@ -97,7 +97,7 @@ const importData = async () => {
       {
         user: adminId,
         name: 'Ergonomic Office Chair',
-        image: 'https://images.unsplash.com/photo-1505797149-43b0069ec26b?w=600&auto=format&fit=crop',
+        image: '/photo-1505797149-43b0069ec26b.avif',
         brand: 'ComfortPlus',
         category: 'Furniture',
         description: 'High-back ergonomic mesh chair with adjustable lumbar support, 3D armrests, and dynamic recline.',

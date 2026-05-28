@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Cart from './pages/Cart';
 import AdminAddProduct from './pages/AdminAddProduct';
+import AdminEditProduct from './pages/AdminEditProduct';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/admin/add-product" element={<AdminAddProduct />} />
+              <Route path="/admin/edit-product/:id" element={<AdminEditProduct />} />
             </Routes>
           </main>
         </div>

@@ -2,16 +2,22 @@ const Razorpay = require('razorpay');
 const crypto = require('crypto');
 
 let razorpay;
-try {
+
+const getRazorpayInstance = () => {
+  if (razorpay) return razorpay;
   if (process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_ID !== 'rzp_test_placeholder') {
-    razorpay = new Razorpay({
-      key_id: process.env.RAZORPAY_KEY_ID,
-      key_secret: process.env.RAZORPAY_KEY_SECRET,
-    });
+    try {
+      razorpay = new Razorpay({
+        key_id: process.env.RAZORPAY_KEY_ID,
+        key_secret: process.env.RAZORPAY_KEY_SECRET,
+      });
+      return razorpay;
+    } catch (error) {
+      console.error('Razorpay initialization failed:', error.message);
+    }
   }
-} catch (error) {
-  console.log('Razorpay initialization failed, running in simulation mode:', error.message);
-}
+  return null;
+};
 
 // @desc    Create Razorpay Order
 // @route   POST /api/payment/order
@@ -19,6 +25,7 @@ try {
 const createOrder = async (req, res) => {
   try {
     const { amount } = req.body;
+    const client = getRazorpayInstance();
 
     if (!amount) {
       return res.status(400).json({ message: 'Amount is required' });
@@ -27,7 +34,7 @@ const createOrder = async (req, res) => {
     const amountInPaise = Math.round(amount * 100);
 
     // If Razorpay instance is not initialized or keys are placeholders, simulate order
-    if (!razorpay || process.env.RAZORPAY_KEY_ID === 'rzp_test_placeholder') {
+    if (!client || process.env.RAZORPAY_KEY_ID === 'rzp_test_placeholder') {
       const mockOrder = {
         id: `order_mock_${Math.random().toString(36).substring(2, 11)}`,
         entity: 'order',
@@ -51,7 +58,7 @@ const createOrder = async (req, res) => {
       receipt: `receipt_${Date.now()}`,
     };
 
-    const order = await razorpay.orders.create(options);
+    const order = await client.orders.create(options);
     res.status(201).json(order);
   } catch (error) {
     console.error('Error creating Razorpay order, falling back to simulation:', error.message);

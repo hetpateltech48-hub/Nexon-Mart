@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
+dotenv.config();
 const cors = require('cors');
 const path = require('path'); // <-- NEW Node built-in import
 const connectDB = require('./config/db');
@@ -7,7 +8,6 @@ const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes'); // <-- NEW IMPORT
 const paymentRoutes = require('./routes/paymentRoutes');
 
-dotenv.config();
 connectDB();
 
 const app = express();

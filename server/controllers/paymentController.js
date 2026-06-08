@@ -59,7 +59,10 @@ const createOrder = async (req, res) => {
     };
 
     const order = await client.orders.create(options);
-    res.status(201).json(order);
+    res.status(201).json({
+      ...order,
+      key_id: process.env.RAZORPAY_KEY_ID
+    });
   } catch (error) {
     console.error('Error creating Razorpay order, falling back to simulation:', error.message);
     const amountInPaise = Math.round(req.body.amount * 100);

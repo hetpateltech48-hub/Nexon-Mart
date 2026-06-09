@@ -38,7 +38,7 @@ const createProduct = async (req, res) => {
       name: name || 'Sample Tech Gadget',
       price: price || 299,
       image: imagePath,
-      brand: brand || 'NexusBrand',
+      brand: brand || 'NexonBrand',
       category: category || 'Electronics',
       countInStock: countInStock || 10,
       description: description || 'High performance modern consumer electronics product.',
@@ -51,8 +51,7 @@ const createProduct = async (req, res) => {
   }
 };
 
-// @desc    Update a product (Requires Admin Token)
-// @route   PUT /api/products/:id
+
 const updateProduct = async (req, res) => {
   try {
     const { name, price, description, brand, category, countInStock } = req.body;
@@ -80,8 +79,7 @@ const updateProduct = async (req, res) => {
   }
 };
 
-// @desc    Delete a product (Requires Admin Token)
-// @route   DELETE /api/products/:id
+
 const deleteProduct = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);

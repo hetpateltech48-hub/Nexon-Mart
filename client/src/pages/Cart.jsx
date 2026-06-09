@@ -7,7 +7,7 @@ import { API_URL, getImageUrl } from '../config';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
-  const [checkoutStep, setCheckoutStep] = useState('CART'); // CART -> PROCESSING -> SUCCESS
+  const [checkoutStep, setCheckoutStep] = useState('CART');
   const [showRazorpayModal, setShowRazorpayModal] = useState(false);
   const [razorpayOrder, setRazorpayOrder] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
@@ -66,7 +66,7 @@ const Cart = () => {
         key: order.key_id || import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_placeholder',
         amount: order.amount,
         currency: order.currency,
-        name: 'NexusMart',
+        name: 'NexonMart',
         description: 'Store Purchase',
         order_id: order.id,
         handler: async function (response) {

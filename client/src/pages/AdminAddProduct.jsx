@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import { API_URL } from '../config';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
@@ -38,7 +39,7 @@ const AdminAddProduct = () => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      await axios.post('http://localhost:5000/api/products', formData, config);
+      await axios.post(`${API_URL}/api/products`, formData, config);
       setStatus({ loading: false, error: '', success: 'Product published successfully to server/uploads!' });
       setTimeout(() => navigate('/'), 1200);
     } catch (err) {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { API_URL } from '../config';
+import { API_URL, getImageUrl } from '../config';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
@@ -114,7 +114,7 @@ const AdminEditProduct = () => {
             {currentImage && (
               <div className="mb-2">
                 <img 
-                  src={currentImage.startsWith('http') ? currentImage : `${API_URL}${currentImage}`} 
+                  src={getImageUrl(currentImage)} 
                   alt="Current" 
                   style={{ maxHeight: '80px', objectFit: 'contain' }} 
                   className="img-thumbnail d-block" 

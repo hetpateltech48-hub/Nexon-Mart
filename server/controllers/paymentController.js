@@ -33,7 +33,6 @@ const createOrder = async (req, res) => {
 
     const amountInPaise = Math.round(amount * 100);
 
-    // If Razorpay instance is not initialized or keys are placeholders, simulate order
     if (!client || process.env.RAZORPAY_KEY_ID === 'rzp_test_placeholder') {
       const mockOrder = {
         id: `order_mock_${Math.random().toString(36).substring(2, 11)}`,
@@ -84,9 +83,7 @@ const createOrder = async (req, res) => {
   }
 };
 
-// @desc    Verify Razorpay Signature
-// @route   POST /api/payment/verify
-// @access  Private (Registered User)
+
 const verifyPayment = async (req, res) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
@@ -95,7 +92,6 @@ const verifyPayment = async (req, res) => {
       return res.status(400).json({ message: 'All payment parameters are required' });
     }
 
-    // If order is simulated, verify it instantly
     if (razorpay_order_id.startsWith('order_mock_')) {
       return res.status(200).json({ success: true, message: 'Simulated payment verified' });
     }
